@@ -1,21 +1,4 @@
 name,description,price,image,category,brand
-Lavender Relax Body Wash,Calming daily body cleanser,399,https://images.pexels.com/photos/6621469/pexels-photo-6621469.jpeg,bath-body,SoftGlow
-Shea Butter Body Lotion,Deep moisturization for dry skin,449,https://images.pexels.com/photos/6621458/pexels-photo-6621458.jpeg,bath-body,MoistCare
-Coffee Exfoliating Scrub,Removes dead skin cells,349,https://images.pexels.com/photos/6621471/pexels-photo-6621471.jpeg,bath-body,EarthBrew
-Aloe Vera Shower Gel,Soothes sensitive skin,299,https://images.pexels.com/photos/6621480/pexels-photo-6621480.jpeg,bath-body,AloeFresh
-Rose Essence Soap Bar,Gentle floral cleansing,199,https://images.pexels.com/photos/6621476/pexels-photo-6621476.jpeg,bath-body,PureBloom
-Cocoa Butter Body Cream,Intense nourishment formula,499,https://images.pexels.com/photos/6621486/pexels-photo-6621486.jpeg,bath-body,CocoaCare
-Mint Cooling Body Wash,Refreshing post-workout wash,329,https://images.pexels.com/photos/6621490/pexels-photo-6621490.jpeg,bath-body,CoolMint
-Charcoal Detox Soap,Deep pore cleansing bar,179,https://images.pexels.com/photos/6621494/pexels-photo-6621494.jpeg,bath-body,DetoxPlus
-Vitamin E Body Oil,Locks moisture and glow,399,https://images.pexels.com/photos/6621498/pexels-photo-6621498.jpeg,bath-body,GlowDrop
-Oatmeal Soothing Body Wash,Relieves itch and dryness,369,https://images.pexels.com/photos/6621502/pexels-photo-6621502.jpeg,bath-body,OatCare
-Gentle Baby Body Wash,Tear-free mild cleanser,349,https://images.pexels.com/photos/3661375/pexels-photo-3661375.jpeg,mom-baby,BabyPure
-Baby Massage Oil,Nourishes delicate baby skin,399,https://images.pexels.com/photos/3661382/pexels-photo-3661382.jpeg,mom-baby,SoftCare
-Diaper Rash Protection Cream,Prevents and heals rashes,299,https://images.pexels.com/photos/3661387/pexels-photo-3661387.jpeg,mom-baby,BabyShield
-Baby Shampoo,Mild formula for baby hair,279,https://images.pexels.com/photos/3661391/pexels-photo-3661391.jpeg,mom-baby,TinyTots
-Baby Moisturizing Lotion,Daily hydration for babies,329,https://images.pexels.com/photos/3661396/pexels-photo-3661396.jpeg,mom-baby,BabySoft
-Mother Stretch Mark Cream,Improves skin elasticity,599,https://images.pexels.com/photos/3762874/pexels-photo-3762874.jpeg,mom-baby,MomCare
-Nipple Care Balm,Soothing care for new mothers,349,https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg,mom-baby,MotherEase
-Baby Powder Talc-Free,Safe freshness for babies,199,https://images.pexels.com/photos/3661402/pexels-photo-3661402.jpeg,mom-baby,BabyFresh
-Baby Face Cream,Protects baby skin barrier,249,https://images.pexels.com/photos/3661406/pexels-photo-3661406.jpeg,mom-baby,TinyGlow
-Baby Hair Oil,Strengthens baby hair gently,299,https://images.pexels.com/photos/3661410/pexels-photo-3661410.jpeg,mom-baby,BabyRoots
+Gentle Baby Body Wash,Ultra-mild daily cleanser for newborn skin,349,https://images.unsplash.com/photo-1600180758890-6b94519a8ba6,mom-baby,BabySoft
+Calming Baby Lotion,Deep hydration with soothing care,399,https://images.unsplash.com/photo-1585386959984-a4155228c5f1,mom-baby,SoftNest
+Organic Baby Massage Oil,Nourishing oil for bonding massage,449,https://images.unsplash.com/photo-1598514982871-9df4a0c4e3b5,mom-baby,MotherPure

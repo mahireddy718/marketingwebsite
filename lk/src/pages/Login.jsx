@@ -1,27 +1,55 @@
 import React, { useState } from "react";
 import { API } from "./api";
+import toast from "react-hot-toast";
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [step, setStep] = useState(1); // signup/reset steps
+  const [mode, setMode] = useState("login"); // login | signup | forgot
+  const [step, setStep] = useState(1);
   const [otp, setOtp] = useState("");
-  const [forgot, setForgot] = useState(false);
+  const [animating, setAnimating] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
-    contact: "", // email
+    contact: "",
     password: "",
     newPassword: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
+
+  /* ================= PREMIUM LOGIN-ONLY TOAST ================= */
+  const loginToast = (message) => {
+    toast(message, {
+      duration: 2200,
+      style: {
+        background: "#7dd3fc",      // light blue
+        color: "#0f172a",           // dark text
+        padding: "10px 22px",
+        borderRadius: "9999px",     // pill
+        fontSize: "14px",
+        fontWeight: 500,
+        boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
+        transformOrigin: "top center",
+        animation: "loginToast 0.25s ease-out",
+      },
+    });
   };
 
-  /* ---------------- LOGIN ---------------- */
+  /* ================= MODE SWITCH WITH ANIMATION ================= */
+  const switchMode = (nextMode) => {
+    setAnimating(true);
+    setTimeout(() => {
+      setMode(nextMode);
+      setStep(1);
+      setAnimating(false);
+    }, 300);
+  };
+
+  /* ================= LOGIN ================= */
   const handleLogin = async () => {
     if (!form.contact || !form.password) {
-      alert("All fields required");
+      loginToast("Email and password required");
       return;
     }
 
@@ -33,16 +61,19 @@ export default function Login() {
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("username", res.data.user.name);
+      localStorage.setItem("userId", res.data.user._id);
+
+      loginToast("Welcome back");
       window.location.href = "/";
-    } catch (err) {
-      alert(err.response?.data?.msg || "Login failed");
+    } catch {
+      loginToast("Invalid credentials");
     }
   };
 
-  /* ---------------- SIGNUP : SEND OTP ---------------- */
+  /* ================= SIGNUP ================= */
   const sendSignupOtp = async () => {
     if (!form.name || !form.contact || !form.password) {
-      alert("All fields required");
+      loginToast("All fields required");
       return;
     }
 
@@ -50,15 +81,13 @@ export default function Login() {
       await API.post("/auth/signup/send-otp", {
         contact: form.contact,
       });
-
+      loginToast("OTP sent");
       setStep(2);
-      alert("OTP sent");
-    } catch (err) {
-      alert(err.response?.data?.msg || "OTP failed");
+    } catch {
+      loginToast("Failed to send OTP");
     }
   };
 
-  /* ---------------- SIGNUP : VERIFY OTP ---------------- */
   const verifySignupOtp = async () => {
     try {
       await API.post("/auth/signup/verify-otp", {
@@ -68,18 +97,17 @@ export default function Login() {
         otp,
       });
 
-      alert("Signup successful. Please login.");
-      setIsLogin(true);
-      setStep(1);
-    } catch (err) {
-      alert(err.response?.data?.msg || "Invalid OTP");
+      loginToast("Account created");
+      switchMode("login");
+    } catch {
+      loginToast("Invalid OTP");
     }
   };
 
-  /* ---------------- FORGOT PASSWORD : SEND OTP ---------------- */
+  /* ================= FORGOT PASSWORD ================= */
   const sendResetOtp = async () => {
     if (!form.contact) {
-      alert("Email required");
+      loginToast("Email required");
       return;
     }
 
@@ -87,18 +115,16 @@ export default function Login() {
       await API.post("/auth/forgot-password/send-otp", {
         email: form.contact,
       });
-
+      loginToast("OTP sent");
       setStep(2);
-      alert("OTP sent to email");
-    } catch (err) {
-      alert(err.response?.data?.msg || "OTP failed");
+    } catch {
+      loginToast("OTP failed");
     }
   };
 
-  /* ---------------- RESET PASSWORD ---------------- */
   const resetPassword = async () => {
     if (!otp || !form.newPassword) {
-      alert("All fields required");
+      loginToast("All fields required");
       return;
     }
 
@@ -109,178 +135,141 @@ export default function Login() {
         newPassword: form.newPassword,
       });
 
-      alert("Password reset successful");
-      setForgot(false);
-      setStep(1);
-    } catch (err) {
-      alert(err.response?.data?.msg || "Invalid OTP");
+      loginToast("Password reset");
+      switchMode("login");
+    } catch {
+      loginToast("Invalid OTP");
     }
   };
 
+  /* ================= RIGHT PANEL TEXT ================= */
+  const rightTitle =
+    mode === "signup"
+      ? "WELCOME TO SIGN UP"
+      : mode === "forgot"
+      ? "RESET ACCESS"
+      : "WELCOME BACK";
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f8f8f8]">
-      <div className="w-full max-w-md p-10 bg-white border rounded-md shadow-md">
+    <div className="min-h-screen flex items-center justify-center bg-[#0b0f1a]">
+      <div className="relative p-[2px] rounded-2xl border border-cyan-400/40 shadow-[0_0_35px_rgba(0,255,255,0.2)]">
+        <div className="flex overflow-hidden rounded-2xl bg-[#0f172a]">
 
-        <h1 className="mb-6 text-2xl font-bold">
-          {forgot
-            ? "Reset Password"
-            : isLogin
-            ? "Login"
-            : "Create Account"}
-        </h1>
+          {/* LEFT FORM */}
+          <div
+            className={`w-[420px] p-10 text-white transition-all duration-300
+            ${animating ? "opacity-0 translate-x-[-40px]" : "opacity-100 translate-x-0"}`}
+          >
+            <h1 className="mb-6 text-3xl font-semibold capitalize">
+              {mode}
+            </h1>
 
-        {/* ================= LOGIN ================= */}
-        {isLogin && !forgot && (
-          <>
-            <input
-              name="contact"
-              placeholder="Email"
-              onChange={handleChange}
-              className="w-full p-3 mb-4 border rounded"
-            />
+            {mode === "login" && (
+              <>
+                <input name="contact" placeholder="Email" onChange={handleChange} className="input" />
+                <input name="password" type="password" placeholder="Password" onChange={handleChange} className="input" />
+                <button onClick={handleLogin} className="btn">Login</button>
 
-            <input
-              name="password"
-              type="password"
-              placeholder="Password"
-              onChange={handleChange}
-              className="w-full p-3 mb-4 border rounded"
-            />
+                <p className="link" onClick={() => switchMode("forgot")}>
+                  Forgot password?
+                </p>
+              </>
+            )}
 
-            <button
-              onClick={handleLogin}
-              className="w-full py-3 text-white bg-black rounded"
-            >
-              Login
-            </button>
+            {mode === "signup" && step === 1 && (
+              <>
+                <input name="name" placeholder="Full Name" onChange={handleChange} className="input" />
+                <input name="contact" placeholder="Email" onChange={handleChange} className="input" />
+                <input name="password" type="password" placeholder="Password" onChange={handleChange} className="input" />
+                <button onClick={sendSignupOtp} className="btn">Send OTP</button>
+              </>
+            )}
+
+            {mode === "signup" && step === 2 && (
+              <>
+                <input placeholder="OTP" onChange={(e) => setOtp(e.target.value)} className="input" />
+                <button onClick={verifySignupOtp} className="btn">Verify & Signup</button>
+              </>
+            )}
+
+            {mode === "forgot" && step === 1 && (
+              <>
+                <input name="contact" placeholder="Email" onChange={handleChange} className="input" />
+                <button onClick={sendResetOtp} className="btn">Send OTP</button>
+              </>
+            )}
+
+            {mode === "forgot" && step === 2 && (
+              <>
+                <input placeholder="OTP" onChange={(e) => setOtp(e.target.value)} className="input" />
+                <input name="newPassword" type="password" placeholder="New Password" onChange={handleChange} className="input" />
+                <button onClick={resetPassword} className="btn">Reset Password</button>
+              </>
+            )}
 
             <p
-              className="mt-4 text-sm text-center text-pink-600 cursor-pointer"
-              onClick={() => {
-                setForgot(true);
-                setStep(1);
-              }}
+              className="mt-6 text-sm cursor-pointer text-cyan-400"
+              onClick={() => switchMode(mode === "login" ? "signup" : "login")}
             >
-              Forgot password?
+              {mode === "login"
+                ? "New here? Create account"
+                : "Already have an account? Login"}
             </p>
-          </>
-        )}
+          </div>
 
-        {/* ================= SIGNUP ================= */}
-        {!isLogin && !forgot && step === 1 && (
-          <>
-            <input
-              name="name"
-              placeholder="Full Name"
-              onChange={handleChange}
-              className="w-full p-3 mb-4 border rounded"
-            />
-
-            <input
-              name="contact"
-              placeholder="Email"
-              onChange={handleChange}
-              className="w-full p-3 mb-4 border rounded"
-            />
-
-            <input
-              name="password"
-              type="password"
-              placeholder="Create Password"
-              onChange={handleChange}
-              className="w-full p-3 mb-6 border rounded"
-            />
-
-            <button
-              onClick={sendSignupOtp}
-              className="w-full py-3 text-white bg-black rounded"
+          {/* RIGHT PANEL */}
+          <div className="w-[320px] flex items-center justify-center bg-[#020617] border-l border-cyan-400/20">
+            <h2
+              className={`text-3xl font-bold text-white transition-opacity duration-300
+              ${animating ? "opacity-0" : "opacity-100"}`}
             >
-              Send OTP
-            </button>
-          </>
-        )}
-
-        {!isLogin && !forgot && step === 2 && (
-          <>
-            <input
-              placeholder="Enter OTP"
-              onChange={(e) => setOtp(e.target.value)}
-              className="w-full p-3 mb-6 border rounded"
-            />
-
-            <button
-              onClick={verifySignupOtp}
-              className="w-full py-3 text-white bg-black rounded"
-            >
-              Verify & Create Account
-            </button>
-          </>
-        )}
-
-        {/* ================= RESET PASSWORD ================= */}
-        {forgot && step === 1 && (
-          <>
-            <input
-              name="contact"
-              placeholder="Registered Email"
-              onChange={handleChange}
-              className="w-full p-3 mb-6 border rounded"
-            />
-
-            <button
-              onClick={sendResetOtp}
-              className="w-full py-3 text-white bg-black rounded"
-            >
-              Send OTP
-            </button>
-          </>
-        )}
-
-        {forgot && step === 2 && (
-          <>
-            <input
-              placeholder="OTP"
-              onChange={(e) => setOtp(e.target.value)}
-              className="w-full p-3 mb-4 border rounded"
-            />
-
-            <input
-              name="newPassword"
-              type="password"
-              placeholder="New Password"
-              onChange={handleChange}
-              className="w-full p-3 mb-6 border rounded"
-            />
-
-            <button
-              onClick={resetPassword}
-              className="w-full py-3 text-white bg-black rounded"
-            >
-              Reset Password
-            </button>
-          </>
-        )}
-
-        {/* ================= SWITCH ================= */}
-        <p
-          className="mt-6 text-center cursor-pointer"
-          onClick={() => {
-            setIsLogin(!isLogin);
-            setForgot(false);
-            setStep(1);
-          }}
-        >
-          {isLogin ? (
-            <>New to L-K ShopSite? <span className="text-pink-600">Create account</span></>
-          ) : (
-            <>Already have an account? <span className="text-pink-600">Login</span></>
-          )}
-        </p>
-
-        <p className="mt-4 text-xs text-center text-gray-500">
-          By continuing, you agree to our Terms & Privacy Policy
-        </p>
+              {rightTitle}
+            </h2>
+          </div>
+        </div>
       </div>
+
+      {/* LOCAL STYLES */}
+      <style>{`
+        @keyframes loginToast {
+          from {
+            opacity: 0;
+            transform: translateY(-12px) scale(0.96);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+        .input {
+          width: 100%;
+          padding: 12px;
+          margin-bottom: 14px;
+          background: transparent;
+          border: 1px solid rgba(34,211,238,0.3);
+          border-radius: 6px;
+          color: white;
+        }
+        .input:focus {
+          outline: none;
+          border-color: rgb(34,211,238);
+        }
+        .btn {
+          width: 100%;
+          padding: 12px;
+          background: rgb(34,211,238);
+          color: black;
+          font-weight: 600;
+          border-radius: 6px;
+          margin-top: 4px;
+        }
+        .link {
+          margin-top: 10px;
+          font-size: 14px;
+          color: rgb(34,211,238);
+          cursor: pointer;
+        }
+      `}</style>
     </div>
   );
 }

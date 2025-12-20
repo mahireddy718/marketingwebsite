@@ -3,30 +3,43 @@ import Product from "../models/Product.js";
 
 const router = express.Router();
 
-// ------------------------------------
-// PRODUCT SEARCH (by description/title)
-// ------------------------------------
-console.log(">>> productRoutes LOADED");
-
-router.get("/search/:keyword", async (req, res) => {
+/* ================= SEARCH PRODUCTS ================= */
+/* ================= SMART SEARCH ================= */
+router.get("/search", async (req, res) => {
   try {
-    const keyword = req.params.keyword;
+    const q = req.query.q?.toLowerCase();
 
-    if (!keyword.trim()) {
-      return res.json([]);
+    if (!q) return res.json([]);
+
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: q, $options: "i" } },
+        { category: { $regex: q, $options: "i" } },
+        { tags: { $in: [q] } }
+      ],
+    })
+      .limit(10)
+      .select("name price image category");
+
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: "Search failed" });
+  }
+});
+
+
+/* ================= GET PRODUCT BY ID ================= */
+router.get("/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
     }
 
-    const results = await Product.find({
-      $or: [
-        { description: { $regex: keyword, $options: "i" } },
-        { title: { $regex: keyword, $options: "i" } } // safe fallback
-      ]
-    }).limit(20);
-
-    res.json(results);
-  } catch (error) {
-    console.error("Search API Error:", error);
-    res.status(500).json({ message: "Server Error" });
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ message: "Invalid product ID" });
   }
 });
 

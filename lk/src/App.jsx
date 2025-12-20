@@ -11,6 +11,10 @@ import CartPage from "./pages/CartPage";
 import Seller from "./pages/Seller";
   import Checkout from "./pages/Checkout";
  import OrderSuccess from "./pages/OrderSuccess";
+ import AddAddress from "./pages/AddAddress";
+ import SearchResults from "./pages/SearchResults";
+
+
 
 
 
@@ -42,6 +46,9 @@ export default function App() {
            <Route path="/seller/products" element={<AdminProducts />} /> 
            <Route path="/checkout" element={<Checkout />} />
            <Route path="/order-success" element={<OrderSuccess />} />
+           <Route path="/add-address" element={<AddAddress />} />
+           <Route path="/search" element={<SearchResults />} />
+
 
 
           

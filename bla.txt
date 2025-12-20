@@ -114,3 +114,7 @@ Custom domain
 
 
 add admin page
+
+
+productsroutes
+npm install framer-motion

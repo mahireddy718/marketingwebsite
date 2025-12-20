@@ -1,4 +1,5 @@
-git status
-git add .
-git commit -m "feat: <thursday otp added today>"
-git push
+git status;
+git add .;
+git commit -m "feat: <satarday polished and added nice features>";
+git push;
+git push origin HEAD:main
