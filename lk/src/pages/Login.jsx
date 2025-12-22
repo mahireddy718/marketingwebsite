@@ -24,20 +24,18 @@ export default function Login() {
     toast(message, {
       duration: 2200,
       style: {
-        background: "#7dd3fc",      // light blue
-        color: "#0f172a",           // dark text
+        background: "#7dd3fc",
+        color: "#0f172a",
         padding: "10px 22px",
-        borderRadius: "9999px",     // pill
+        borderRadius: "9999px",
         fontSize: "14px",
         fontWeight: 500,
         boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
-        transformOrigin: "top center",
-        animation: "loginToast 0.25s ease-out",
       },
     });
   };
 
-  /* ================= MODE SWITCH WITH ANIMATION ================= */
+  /* ================= MODE SWITCH ================= */
   const switchMode = (nextMode) => {
     setAnimating(true);
     setTimeout(() => {
@@ -143,7 +141,6 @@ export default function Login() {
     }
   };
 
-  /* ================= RIGHT PANEL TEXT ================= */
   const rightTitle =
     mode === "signup"
       ? "WELCOME TO SIGN UP"
@@ -156,10 +153,10 @@ export default function Login() {
       <div className="relative p-[2px] rounded-2xl border border-cyan-400/40 shadow-[0_0_35px_rgba(0,255,255,0.2)]">
         <div className="flex overflow-hidden rounded-2xl bg-[#0f172a]">
 
-          {/* LEFT FORM */}
+          {/* LEFT PANEL */}
           <div
             className={`w-[420px] p-10 text-white transition-all duration-300
-            ${animating ? "opacity-0 translate-x-[-40px]" : "opacity-100 translate-x-0"}`}
+            ${animating ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"}`}
           >
             <h1 className="mb-6 text-3xl font-semibold capitalize">
               {mode}
@@ -220,15 +217,12 @@ export default function Login() {
 
           {/* RIGHT PANEL */}
           <div className="w-[320px] flex items-center justify-center bg-[#020617] border-l border-cyan-400/20">
-            <div
-              className={`text-center transition-opacity duration-300 ${animating ? "opacity-0" : "opacity-100"}`}
-            >
-              <div className="flex items-center justify-center mb-4">
+            <div className={`text-center transition-opacity duration-300 ${animating ? "opacity-0" : "opacity-100"}`}>
+              <div className="flex justify-center mb-4">
                 <span className="p-3 rounded-full bg-orange-50">
                   <FiUser className="text-orange-500" size={28} />
                 </span>
               </div>
-
               <h2 className="text-3xl font-bold text-white">{rightTitle}</h2>
             </div>
           </div>
@@ -237,16 +231,6 @@ export default function Login() {
 
       {/* LOCAL STYLES */}
       <style>{`
-        @keyframes loginToast {
-          from {
-            opacity: 0;
-            transform: translateY(-12px) scale(0.96);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
         .input {
           width: 100%;
           padding: 12px;
@@ -256,10 +240,12 @@ export default function Login() {
           border-radius: 6px;
           color: white;
         }
+
         .input:focus {
           outline: none;
           border-color: rgb(34,211,238);
         }
+
         .btn {
           width: 100%;
           padding: 12px;
@@ -268,7 +254,20 @@ export default function Login() {
           font-weight: 600;
           border-radius: 6px;
           margin-top: 4px;
+          cursor: pointer;
+          transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
+
+        .btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 18px rgba(34,211,238,0.35);
+        }
+
+        .btn:disabled {
+          cursor: not-allowed;
+          opacity: 0.6;
+        }
+
         .link {
           margin-top: 10px;
           font-size: 14px;
