@@ -95,7 +95,7 @@ export default function SearchResults() {
                 {/* ADD TO CART BUTTON */}
                 <button
                   onClick={() => handleAdd(item)}
-                  className="absolute px-6 py-2 text-sm font-semibold text-white transition duration-300 -translate-x-1/2 bg-black rounded-full opacity-0  bottom-6 left-1/2 group-hover:opacity-100"
+                  className="absolute px-6 py-2 text-sm font-semibold text-white transition duration-300 -translate-x-1/2 bg-black rounded-full opacity-0 bottom-6 left-1/2 group-hover:opacity-100"
                 >
                   ADD TO CART
                 </button>

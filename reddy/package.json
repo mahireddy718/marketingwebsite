@@ -15,11 +15,15 @@
     "csvtojson": "^2.0.14",
     "dotenv": "^16.4.5",
     "express": "^4.22.1",
+    "express-session": "^1.18.2",
+    "google-auth-library": "^10.5.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.0.1",
     "multer": "^2.0.2",
-    "razorpay": "*",
-    "nodemailer": "^7.0.11"
+    "nodemailer": "^7.0.11",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "razorpay": "*"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"

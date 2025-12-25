@@ -1,5 +1,5 @@
 git status;
 git add .;
-git commit -m "feat: <changed home page and navbar>";
+git commit -m "feat: <enabled google login>";
 git push;
 git push origin HEAD:main
