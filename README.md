@@ -75,7 +75,7 @@
 
 ---
 
-## Backend Setup
+## Backend and Frontend Setup 
 
 ```bash
 cd server
