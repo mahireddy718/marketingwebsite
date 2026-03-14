@@ -1,0 +1,40 @@
+/* src/pages/home-enhancements.css */
+
+/* hero 3d card */
+.hero-card-3d {
+  perspective: 1500px;
+  display: inline-block;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(15,23,42,0.18);
+  transform-style: preserve-3d;
+}
+.hero-card-3d .hero-image {
+  width: 420px;
+  height: 420px;
+  border-radius: 16px;
+  object-fit: cover;
+  transform: translateZ(30px) scale(1.02);
+}
+
+/* transform-style helper for 3D hover on cards */
+.transform-style-3d {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* brand tile hover effect */
+.brand-tile {
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+/* category overlay */
+.category-card { position: relative; }
+.category-overlay { transition: opacity .25s ease; }
+
+/* hero slide baseline */
+.hero-slide { min-height: 420px; }
+
+/* subtle scrollbar for search results (if used) */
+::-webkit-scrollbar { height: 8px; width: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 8px; }

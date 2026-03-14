@@ -1,0 +1,2 @@
+title,description,price,category,stock,image
+" + Array.from({length:1000},(_,i)=>`"Product ${i+1}","High-quality item number ${i+1}",${(i%500)+100},"category${(i%10)+1}",${(i%200)+10},"https://example.com/img${(i%50)+1}.jpg"`).join("\n")}]}
