@@ -80,3 +80,38 @@
 ```bash
 cd server
 npm install
+
+create .env file
+PORT=4002
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_secret
+RESEND_API_KEY=your_key
+GEMINI_API_KEY=your_key
+RAZORPAY_KEY_ID=your_id
+RAZORPAY_KEY_SECRET=your_secret
+
+RUN Backend
+npm run dev
+
+Frontend setup
+cd frontend
+npm install
+npm run dev
+
+project structure
+frontend/
+ ├── src/
+ │   ├── components/
+ │   ├── context/
+ │   ├── pages/
+
+server/
+ ├── models/
+ ├── routes/
+ ├── utils/
+
+❤️ Built with passion for better shopping experience
+
+
+
+
